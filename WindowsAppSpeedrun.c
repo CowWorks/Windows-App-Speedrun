@@ -1,21 +1,35 @@
+//===================================
+//         System includes
+//===================================
 #include <windows.h>
 #include <stdio.h>
+
+//===================================
+//         Preprocessors
+//===================================
 #pragma comment(lib, "user32.dll")
 #pragma comment(lib, "gdi32.dll")
 #pragma comment(lib, "opengl32.dll")
-
-#include <glcorearb.h>
-#include "wglext.h"
-
-
-
 #ifndef bool
 #define b8 _Bool
 #endif
 
+//===================================
+//         OpenGL Includes
+//===================================
+#include "glcorearb.h"
+#include "wglext.h"
+
+//===================================
+//         Global Variables
+//===================================
 HDC global_context;
 HWND WindowHandle;
 
+
+//===================================
+//         Window Callback
+//===================================
 LRESULT CALLBACK
 MainWindowCallback(HWND Window,
                    UINT Message,
@@ -41,7 +55,7 @@ MainWindowCallback(HWND Window,
         case WM_KEYDOWN:
         {
             printf("A key was pressed!\n");
-        }
+        }break;
         default:
         {
             Result = DefWindowProc(Window, Message, wParam, lParam);
@@ -51,6 +65,9 @@ MainWindowCallback(HWND Window,
     return Result;
 }
 
+//===================================
+//       WinMain entry-point
+//===================================
 int CALLBACK
 WinMain(HINSTANCE Instance,
         HINSTANCE PrevInstance,
