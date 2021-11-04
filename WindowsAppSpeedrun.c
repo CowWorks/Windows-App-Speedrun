@@ -9,7 +9,7 @@
 //===================================
 #pragma comment(lib, "user32.dll")
 #pragma comment(lib, "gdi32.dll")
-#pragma comment(lib, "opengl32.dll")
+#pragma comment(lib, "opengl32.lib")
 #ifndef bool
 #define b8 _Bool
 #endif
@@ -48,6 +48,7 @@ running isRunning = true;
 //       Function Prototypes
 //===================================
 void LoadWinMsg( void );
+unsigned int AppShouldClose( void );
 
 //===================================
 //         Window Callback
@@ -67,15 +68,9 @@ MainWindowCallback(HWND Window,
         {
             if(MessageBox(Window, "Are you sure you want to quit?", "Windows App Speedrun", MB_OKCANCEL) == IDOK)
             {
-                DestroyWindow(Window);
+                isRunning = false;
+                myAppState = AppTerminate;
             }
-        }break;
-
-        case 
-        WM_DESTROY:
-        {
-            PostQuitMessage(0);
-            return 0;
         }break;
 
         case 
@@ -156,10 +151,9 @@ WinMain(HINSTANCE Instance,
         if(WindowHandle != 0)
         {
 
-            while(isRunning != false)
+            while(!AppShouldClose())
             {
-                LoadWinMsg();
-
+                
                 while(myAppState == AppInit)
                 {
                     LoadWinMsg();
@@ -177,4 +171,10 @@ LoadWinMsg()
     GetMessage(&Message, 0, 0, 0);
     TranslateMessage(&Message);
     DispatchMessage(&Message);
+}
+
+unsigned int
+AppShouldClose()
+{
+    return (isRunning == false && myAppState == AppTerminate);
 }
