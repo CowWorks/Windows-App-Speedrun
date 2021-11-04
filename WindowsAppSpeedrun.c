@@ -26,7 +26,6 @@
 HDC global_context;
 HWND WindowHandle;
 
-
 //===================================
 //         Window Callback
 //===================================
@@ -40,22 +39,40 @@ MainWindowCallback(HWND Window,
 
     switch (Message)
     {
-        case WM_CLOSE:
+        case 
+        WM_CLOSE:
         {
             if(MessageBox(Window, "Are you sure you want to quit?", "Windows App Speedrun", MB_OKCANCEL) == IDOK)
             {
                 DestroyWindow(Window);
             }
         }break;
-        case WM_DESTROY:
+
+        case 
+        WM_DESTROY:
         {
             PostQuitMessage(0);
             return 0;
         }break;
-        case WM_KEYDOWN:
+
+        case 
+        WM_KEYDOWN:
         {
             printf("A key was pressed!\n");
         }break;
+
+        case
+        WM_LBUTTONDOWN:
+        {
+            printf("You pressed down the left mouse button\n");
+        }break;
+
+        case
+        WM_LBUTTONUP:
+        {
+            printf("You released the left mouse button\n");
+        }
+
         default:
         {
             Result = DefWindowProc(Window, Message, wParam, lParam);
@@ -120,8 +137,6 @@ WinMain(HINSTANCE Instance,
             {
                 TranslateMessage(&Message);
                 DispatchMessage(&Message);
-
-                
             }
         }
     }
