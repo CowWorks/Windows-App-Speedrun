@@ -25,6 +25,29 @@
 //===================================
 HDC global_context;
 HWND WindowHandle;
+MSG Message;
+
+typedef enum AppState
+{
+    AppInit,
+    AppLoading,
+    AppEditing,
+    AppNoFile,
+    AppTerminate
+}AppState;
+AppState myAppState;
+
+typedef enum running
+{
+    true,
+    false
+}running;
+running isRunning = true;
+
+//===================================
+//       Function Prototypes
+//===================================
+void LoadWinMsg( void );
 
 //===================================
 //         Window Callback
@@ -117,29 +140,41 @@ WinMain(HINSTANCE Instance,
                                         0
                                      );
         
-        global_context = GetDC(WindowHandle);
+        // global_context = GetDC(WindowHandle);
 
-        PIXELFORMATDESCRIPTOR x = { 0 };
-        x.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-        x.nVersion = 1;
-        x.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-        x.iPixelType = PFD_TYPE_RGBA;
-        x. cColorBits = 24;
+        // PIXELFORMATDESCRIPTOR x = { 0 };
+        // x.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+        // x.nVersion = 1;
+        // x.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+        // x.iPixelType = PFD_TYPE_RGBA;
+        // x. cColorBits = 24;
 
-        int pixel_format = ChoosePixelFormat(global_context, &x);
-        SetPixelFormat(global_context, pixel_format, &x);
+        // int pixel_format = ChoosePixelFormat(global_context, &x);
+        // SetPixelFormat(global_context, pixel_format, &x);
         
+        myAppState = AppInit;
         if(WindowHandle != 0)
         {
-            MSG Message;
 
-            while(GetMessage(&Message, 0, 0, 0))
+            while(isRunning != false)
             {
-                TranslateMessage(&Message);
-                DispatchMessage(&Message);
+                LoadWinMsg();
+
+                while(myAppState == AppInit)
+                {
+                    LoadWinMsg();
+                }
             }
         }
     }
     
     return 0;
+}
+
+void 
+LoadWinMsg()
+{
+    GetMessage(&Message, 0, 0, 0);
+    TranslateMessage(&Message);
+    DispatchMessage(&Message);
 }
