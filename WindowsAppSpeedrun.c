@@ -1,4 +1,21 @@
 //===================================
+//         Main App Data
+//===================================
+//TODO: Implement an entry point for the window data
+// typedef struct window{
+//     const char* window_name;
+//     int window_width;
+//     int window_height;
+// }window;
+// window myWindow;
+
+// void
+// create_window(window myWindow)
+// {
+//     SystemWindowCreateProc(myWindow.window_name, myWindow.window_width, myWindow.window_height);
+// }
+
+//===================================
 //         System includes
 //===================================
 #include <windows.h>
@@ -7,9 +24,9 @@
 //===================================
 //         Preprocessors
 //===================================
-#pragma comment(lib, "user32.dll")
-#pragma comment(lib, "gdi32.dll")
-#pragma comment(lib, "opengl32.lib")
+// #pragma comment(lib, "user32.lib")
+// #pragma comment(lib, "gdi32.lib")
+// #pragma comment(lib, "opengl32.lib")
 #ifndef bool
 #define b8 _Bool
 #endif
@@ -59,8 +76,6 @@ MainWindowCallback(HWND Window,
                    WPARAM wParam,
                    LPARAM lParam)
 {
-    LRESULT Result = 0;
-
     switch (Message)
     {
         case 
@@ -90,14 +105,9 @@ MainWindowCallback(HWND Window,
         {
             printf("You released the left mouse button\n");
         }
-
-        default:
-        {
-            Result = DefWindowProc(Window, Message, wParam, lParam);
-        }
     }
 
-    return Result;
+    return (DefWindowProc(Window, Message, wParam, lParam));
 }
 
 //===================================
@@ -135,18 +145,23 @@ WinMain(HINSTANCE Instance,
                                         0
                                      );
         
-        // global_context = GetDC(WindowHandle);
+        global_context = GetDC(WindowHandle);
 
-        // PIXELFORMATDESCRIPTOR x = { 0 };
-        // x.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-        // x.nVersion = 1;
-        // x.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-        // x.iPixelType = PFD_TYPE_RGBA;
-        // x. cColorBits = 24;
+        PIXELFORMATDESCRIPTOR x = { 0 };
+        x.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+        x.nVersion = 1;
+        x.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+        x.iPixelType = PFD_TYPE_RGBA;
+        x. cColorBits = 24;
 
-        // int pixel_format = ChoosePixelFormat(global_context, &x);
-        // SetPixelFormat(global_context, pixel_format, &x);
+        int pixel_format = ChoosePixelFormat(global_context, &x);
+        SetPixelFormat(global_context, pixel_format, &x);
         
+        //HGLRC dummy_context = wglCreateContext(global_context);
+        //wglMakeCurrent(global_context, dummy_context);
+
+        //PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribs = (PFNWGLCREATECONTEXTATTRIBSARBPROC) wglGetProcAddress("wglCreateContextAttribs");
+
         myAppState = AppInit;
         if(WindowHandle != 0)
         {
@@ -154,9 +169,9 @@ WinMain(HINSTANCE Instance,
             while(!AppShouldClose())
             {
                 
-                while(myAppState == AppInit)
+                while(myAppState == AppInit) // Will run when the app initiates
                 {
-                    LoadWinMsg();
+                    LoadWinMsg(); // loads windows system messages
                 }
             }
         }
