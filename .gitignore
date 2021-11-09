@@ -1,7 +1,19 @@
 
 a.exe
 debug.bat
-ext/glcorearb.h
-ext/KHR/khrplatform.h
-ext/wglext.h
 WindowsAppSpeedrun.exe
+.vs/WAS/v16/.suo
+*.db
+*.db-shm
+*.db-wal
+*.opendb
+*.ipch
+*.pdb
+*.exe
+*.recipe
+*.ilk
+*.log
+*.tlog
+Debug/WAS.vcxproj.FileListAbsolute.txt
+*.obj
+src/.vs/WAS/v16/.suo
