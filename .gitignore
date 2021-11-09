@@ -69,3 +69,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Application/.vs/WAS/v16/.suo
+Application/Debug/WAS.vcxproj.FileListAbsolute.txt
+Application/src/.vs/WAS/v16/.suo
