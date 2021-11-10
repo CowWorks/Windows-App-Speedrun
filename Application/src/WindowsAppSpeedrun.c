@@ -30,6 +30,9 @@
 #ifndef bool
 #define b8 _Bool
 #endif
+#ifndef NULL
+#define NULL ((void*)0)
+#endif
 
 //===================================
 //         OpenGL Includes
@@ -161,6 +164,21 @@ WinMain(HINSTANCE Instance,
         wglMakeCurrent(global_context, dummy_context);
 
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribs = (PFNWGLCREATECONTEXTATTRIBSARBPROC) wglGetProcAddress("wglCreateContextAttribs");
+
+        wglMakeCurrent(NULL, NULL);
+        wglDeleteContext(dummy_context);
+
+        GLint attr[] = 
+        {
+            WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+            WGL_CONTEXT_MINOR_VERSION_ARB, 5,
+            WGL_CONTEXT_PROFILE_MASK_ARB,
+            WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+            0
+        };
+
+        HGLRC gl_context = wglCreateContextAttribs(global_context, 0, attr);
+        wglMakeCurrent(global_context , gl_context);
 
         myAppState = AppInit;
         if(WindowHandle != 0)
